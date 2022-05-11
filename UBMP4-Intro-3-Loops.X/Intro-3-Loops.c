@@ -20,6 +20,7 @@
 
 // Program variable definitions
 unsigned char TonLED4 = 127;    // LED brightness PWM value
+unsigned char TonLED5 = 127;
 unsigned int period = 460;      // Sound period value for later activities
 
 int main(void)
@@ -40,7 +41,19 @@ int main(void)
         {
             TonLED4 += 1;
         }
-                
+
+        // Decrease brightness
+        if(SW5 == 0 && TonLED5 != 0)
+        {
+            TonLED5 -= 1;
+        }
+
+        // Increase brightness
+        if(SW4 == 0 && TonLED5 != 255)
+        {
+            TonLED5 += 1;
+        }
+
         // PWM LED4 brightness
         for(unsigned char PWMperiod = 255; PWMperiod != 0; PWMperiod --)
         {
@@ -48,9 +61,13 @@ int main(void)
             {
                 LED4 = 1;
             }
+            if (TonLED5 == PWMperiod) {
+                LED5 = 1;
+            }
             __delay_us(20);
         }
         LED4 = 0;
+        LED5 = 0;
 
         /*
         // Change pitch
