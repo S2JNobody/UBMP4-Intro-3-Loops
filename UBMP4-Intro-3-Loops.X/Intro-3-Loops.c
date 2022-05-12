@@ -19,9 +19,12 @@
 // TODO Set linker code offset to '800' under "Additional options" pull-down.
 
 // Program variable definitions
-unsigned char TonLED4 = 127;    // LED brightness PWM value
+unsigned char MaxTonLED4 = 127;    // LED brightness PWM value
 unsigned char TonLED5 = 127;
+unsigned char TonLED4 = 0;
 unsigned int period = 460;      // Sound period value for later activities
+bool activate;
+bool deactivate;
 
 int main(void)
 {
@@ -30,31 +33,34 @@ int main(void)
 	
     while(1)
 	{
-        // Decrease brightness
-        if(SW2 == 0 && TonLED4 != 0)
-        {
-            TonLED4 -= 1;
+
+        if (SW2 == 0 && !activate && !deactivate) {
+            activate = 1;
         }
 
-        // Increase brightness
-        if(SW3 == 0 && TonLED4 != 255)
-        {
-            TonLED4 += 1;
+        if (SW3 == 0 && !deactivate && !activate) {
+            deactivate = 1;
         }
 
-        // Decrease brightness
-        if(SW5 == 0 && TonLED5 != 0)
-        {
-            TonLED5 -= 1;
+        if (activate) {
+            if (TonLED4 != MaxTonLED4) {
+                TonLED4++;
+            } else {
+                activate = 0;
+                deactivate = 1;
+            }
         }
 
-        // Increase brightness
-        if(SW4 == 0 && TonLED5 != 255)
-        {
-            TonLED5 += 1;
+        if (deactivate) {
+            if (TonLED4 != 0) {
+                TonLED4--;
+            } else {
+                deactivate = 0;
+                activate = 1;
+            }
         }
 
-        // PWM LED4 brightness
+        // PWM LED4 and LED5 brightness
         for(unsigned char PWMperiod = 255; PWMperiod != 0; PWMperiod --)
         {
             if(TonLED4 == PWMperiod)
