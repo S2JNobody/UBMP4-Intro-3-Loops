@@ -19,10 +19,11 @@
 // TODO Set linker code offset to '800' under "Additional options" pull-down.
 
 // Program variable definitions
-unsigned char MaxTonLED4 = 127;    // LED brightness PWM value
+unsigned char MaxFrequency = 4000;    // LED brightness PWM value
+unsigned char MinFrequency = 100;
 unsigned char TonLED5 = 127;
 unsigned char TonLED4 = 0;
-unsigned int period = 460;      // Sound period value for later activities
+unsigned int period = 200;      // Sound period value for later activities
 bool activate;
 bool deactivate;
 
@@ -43,39 +44,27 @@ int main(void)
         }
 
         if (activate) {
-            if (TonLED4 != MaxTonLED4) {
-                TonLED4++;
+            if (period < MaxFrequency) {
+                period += 10;
+                LED5 = 1;
             } else {
                 activate = 0;
                 deactivate = 1;
+                LED5 = 0;
             }
         }
 
         if (deactivate) {
-            if (TonLED4 != 0) {
-                TonLED4--;
+            if (period > MinFrequency) {
+                period -= 10;
+                LED4 = 1;
             } else {
                 deactivate = 0;
                 activate = 1;
+                LED4 = 0;
             }
         }
 
-        // PWM LED4 and LED5 brightness
-        for(unsigned char PWMperiod = 255; PWMperiod != 0; PWMperiod --)
-        {
-            if(TonLED4 == PWMperiod)
-            {
-                LED4 = 1;
-            }
-            if (TonLED5 == PWMperiod) {
-                LED5 = 1;
-            }
-            __delay_us(20);
-        }
-        LED4 = 0;
-        LED5 = 0;
-
-        /*
         // Change pitch
         if(SW4 == 0)
         {
@@ -93,7 +82,6 @@ int main(void)
             BEEPER = !BEEPER;
             for(unsigned int p = period; p != 0; p--);
         }
-        */
 
         // Activate bootloader if SW1 is pressed.
         if(SW1 == 0)
