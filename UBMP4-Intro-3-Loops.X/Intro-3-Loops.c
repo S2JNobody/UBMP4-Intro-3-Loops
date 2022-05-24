@@ -97,7 +97,7 @@ int main(void)
  *    is being evaluated within its brackets? (Hint: Think about the Boolean
  *    variables from Activity 2-Variables.) How many times will this loop run?
 
-It will run forever because 1 always means true (its evaluating true)
+It will run forever because 1 always means true (its evaluating if the condition is true or not)
 
  * 
  * 2. There is a second 'while(PWMperiod != 0)' loop inside the first while
@@ -106,12 +106,12 @@ It will run forever because 1 always means true (its evaluating true)
  * 
 
 The condition being evaluated is if the value of the variable PWMperiod is not 0. The inner loop will run
-255 times because every count of the loop PWMperiod (initially 255) will get 1 closer to 0.
+255 times because every count of the loop PWMperiod (initially 255) will get 1 closer to 0 until 0 is reached.
 
  * 3. What condition is being evaluated by the if statement inside the loop?
  *    What happens when the if condition is true?
 
-The condition being evaluated is if PWMperiod is the same value as (has counted down to) the value of TonLED4
+The condition being evaluated is if PWMperiod is the same value as (has counted down to) the value of TonLED4.
 When the condition is true, LED4 turns on
 
  * 
@@ -225,6 +225,7 @@ LED D5 is lit, so the value of PWMperiod is still 128
  *    What variable type is period? How large a number can this variable hold?
  * 
 
+ Period is an int (Integer)
  From trial and error, it should hold from -1.8446744e+19 up to 1.8446744e+19.
 
  * 8. Why is period copied to the local variable p inside the inner for loop?
